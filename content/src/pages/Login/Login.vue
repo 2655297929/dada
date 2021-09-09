@@ -1,65 +1,84 @@
 <!--  -->
 <template>
-  <div class="loginContainer">
-    <div class="loginInner">
-      <div class="login_header">
-        <h2 class="login_logo">外卖</h2>
-        <div class="login_header_title">
-          <a href="javascript:;" class="on">短信登录</a>
-          <a href="javascript:;">密码登录</a>
-        </div>
-      </div>
-      <div class="login_content">
-        <form>
-          <div class="on">
-            <section class="login_message">
-              <input type="tel" maxlength="11" placeholder="手机号" />
-              <button disabled="disabled" class="get_verification">
-                获取验证码
-              </button>
-            </section>
-            <section class="login_verification">
-              <input type="tel" maxlength="8" placeholder="验证码" />
-            </section>
-            <section class="login_hint">
-              温馨提示：未注册外卖帐号的手机号，登录时将自动注册，且代表已同意
-              <a href="javascript:;">《用户服务协议》</a>
-            </section>
+  <div class="off">
+    <section class="loginContainer">
+      <div class="loginInner">
+        <div class="login_header">
+          <h2 class="login_logo">达达外卖</h2>
+          <div class="login_header_title">
+            <a
+              href="javascript:;"
+              :class="{ on: loginWay }"
+              @click="loginWay = true"
+              >短信登录</a
+            >
+            <a
+              href="javascript:;"
+              :class="{ on: !loginWay }"
+              @click="loginWay = false"
+              >密码登录</a
+            >
           </div>
-          <div>
-            <section>
+        </div>
+        <div class="login_content">
+          <form>
+            <div :class="{ on: loginWay }">
               <section class="login_message">
-                <input
-                  type="tel"
-                  maxlength="11"
-                  placeholder="手机/邮箱/用户名"
-                />
+                <input type="tel" maxlength="11" placeholder="手机号" />
+                <button disabled="disabled" class="get_verification">
+                  获取验证码
+                </button>
               </section>
               <section class="login_verification">
-                <input type="tel" maxlength="8" placeholder="密码" />
-                <div class="switch_button off">
-                  <div class="switch_circle"></div>
-                  <span class="switch_text">...</span>
-                </div>
+                <input type="tel" maxlength="8" placeholder="验证码" />
               </section>
-              <section class="login_message">
-                <input type="text" maxlength="11" placeholder="验证码" />
-                <img
-                  class="get_verification"
-                  src="./images/captcha.svg"
-                  alt="captcha"
-                />
+              <section class="login_hint">
+                温馨提示：未注册外卖帐号的手机号，登录时将自动注册，且代表已同意
+                <a href="javascript:;">《用户服务协议》</a>
               </section>
-            </section>
-          </div>
-          <button class="login_submit">登录</button>
-        </form>
-        <a href="javascript:;" class="about_us">关于我们</a>
+            </div>
+            <div :class="{ on: !loginWay }">
+              <section>
+                <section class="login_message">
+                  <input
+                    type="tel"
+                    maxlength="11"
+                    placeholder="手机/邮箱/用户名"
+                  />
+                </section>
+                <section class="login_verification">
+                  <input type="tel" maxlength="8" placeholder="密码" />
+                  <div
+                    class="switch_button"
+                    :class="showPwd ? 'on' : 'off'"
+                    @click="showPwd = !showPwd"
+                  >
+                    <div
+                      class="switch_circle"
+                      :class="{ right: showPwd }"
+                    ></div>
+                    <span class="switch_text">...</span>
+                  </div>
+                </section>
+                <section class="login_message">
+                  <input type="text" maxlength="11" placeholder="验证码" />
+                  <img
+                    class="get_verification"
+                    src="./images/captcha.svg"
+                    alt="captcha"
+                  />
+                </section>
+              </section>
+            </div>
+            <button class="login_submit">登录</button>
+          </form>
+          <a href="javascript:;" class="about_us">关于我们</a>
+        </div>
+        <a href="javascript:" class="go_back">
+          <i class="iconfont icon-jiantou2"></i>
+        </a>
       </div>
-      <a href="javascript:" class="go_back" @click="$router.back()">
-        <i class="iconfont icon-yixianshi"></i>
-      </a>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -67,6 +86,8 @@
 export default {
   data() {
     return {
+      loginWay: true,      //true代表短信登录     false代表密码
+      showPwd: false,      //on打开               off关闭
     };
   },
 
@@ -79,6 +100,8 @@ export default {
 
 </script>
 <style lang='stylus' rel='stylesheet/stylus' scoped>
+@import '../../common/stylus/minxns.styl';
+
 .loginContainer {
   width: 100%;
   height: 100%;
@@ -209,6 +232,10 @@ export default {
                 background: #fff;
                 box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
                 transition: transform 0.3s;
+
+                &.right {
+                  transform: translateX(30px);
+                }
               }
             }
           }
