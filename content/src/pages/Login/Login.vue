@@ -47,7 +47,8 @@
                   />
                 </section>
                 <section class="login_verification">
-                  <input type="tel" maxlength="8" placeholder="密码" />
+                  <input type="telt" maxlength="8" placeholder="密码" v-model="pwd" v-if="showPwd"/>
+                  <input type="password" maxlength="8" placeholder="密码" v-model="pwd" v-else/>
                   <div
                     class="switch_button"
                     :class="showPwd ? 'on' : 'off'"
@@ -88,6 +89,7 @@ export default {
     return {
       loginWay: true,      //true代表短信登录     false代表密码
       showPwd: false,      //on打开               off关闭
+      pwd:"",              //双向绑定用户密码
     };
   },
 
