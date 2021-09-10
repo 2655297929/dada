@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="login_content">
-          <form>
+          <form @submit.prevent="login">
             <div :class="{ on: loginWay }">
               <section class="login_message">
                 <input type="tel" maxlength="11" placeholder="手机号" />
@@ -30,7 +30,11 @@
                 </button>
               </section>
               <section class="login_verification">
-                <input type="tel" maxlength="8" placeholder="验证码" />
+                <input
+                  type="tel"
+                  maxlength="6"
+                  placeholder="输入短信中的验证码"
+                />
               </section>
               <section class="login_hint">
                 温馨提示：未注册外卖帐号的手机号，登录时将自动注册，且代表已同意
@@ -44,11 +48,24 @@
                     type="tel"
                     maxlength="11"
                     placeholder="手机/邮箱/用户名"
+                    v-model="name"
                   />
                 </section>
                 <section class="login_verification">
-                  <input type="telt" maxlength="8" placeholder="密码" v-model="pwd" v-if="showPwd"/>
-                  <input type="password" maxlength="8" placeholder="密码" v-model="pwd" v-else/>
+                  <input
+                    type="telt"
+                    maxlength="12"
+                    placeholder="输入6-12位密码"
+                    v-model="pwd"
+                    v-if="showPwd"
+                  />
+                  <input
+                    type="password"
+                    maxlength="12"
+                    placeholder="输入6-12位密码"
+                    v-model="pwd"
+                    v-else
+                  />
                   <div
                     class="switch_button"
                     :class="showPwd ? 'on' : 'off'"
@@ -62,10 +79,15 @@
                   </div>
                 </section>
                 <section class="login_message">
-                  <input type="text" maxlength="11" placeholder="验证码" />
+                  <input
+                    type="rtel"
+                    maxlength="4"
+                    v-model="code"
+                    placeholder="验证码"
+                  />
                   <img
                     class="get_verification"
-                    src="./images/captcha.svg"
+                    src="http://127.0.0.1:4000/captcha"
                     alt="captcha"
                   />
                 </section>
@@ -80,30 +102,91 @@
         </a>
       </div>
     </section>
+    <!-- 调用警示框 -->
+    <!-- 绑定自定义事件closeTip并且创建closeTip函数,函数隐藏提示框 -->
+    <AlertTip
+      :alertText="alertText"
+      v-show="alertShow"
+      @closeTip="closeTip"
+    ></AlertTip>
   </div>
 </template>
 
 <script>
+// 引入提示框组件
+import AlertTip from '../../components/AlertTip/AlertTip.vue'
+// 引入ajax请求方法
+import { reqPwdLogin } from '../../api'
 export default {
   data() {
     return {
-      loginWay: true,      //true代表短信登录     false代表密码
-      showPwd: false,      //on打开               off关闭
-      pwd:"",              //双向绑定用户密码
+      loginWay: true,       //true代表短信登录     false代表密码
+      showPwd: false,       //on打开               off关闭
+      pwd: "",              //双向绑定用户密码
+      name: "",             //双向绑定用户输入用户名
+      code: "",             //双向绑定用户输入密码
+      alertText: "",         //提示框中显示文本
+      alertShow: false,     //提示框是否显示控制变量
     };
   },
 
-  components: {},
+  components: { AlertTip },
 
   computed: {},
 
-  methods: {}
+  methods: {
+    // 点击确定关闭隐藏提示框组件    1.3解决提示框不统一
+    closeTip() {
+      this.alertShow = false;   //消除提示框组件
+      this.alertText = "";      //消除提示文字
+    },
+    //显示提示框
+    showAlert(alertText) {
+      this.alertText = alertText; //将参数字符串赋值
+      this.alertShow = true;      //显示框
+    },
+    //用户点击登录按钮,完成验证表单数据和后续操作
+    async login() {
+      //第一步:验证用户名输入:用户名,密码验证是否正确
+      //1.1插件ain正则表达式用户名  字母数字下划线3~13位
+      let reg = /^[a-zA-Z0-9_-]{4,16}$/;   /** 验证用户名   至少包含数字跟字母，可以有字符*/
+      let pwd = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/; /*验证密码     由数字和字母组成要同时含有数字和字母，且长度要在6-12位之间。*/
+      let regcode = /^[0-9a-z]{4}$/i;
+      //1.2:验证用户名如果不正确提示用户并且停止函数
+      if (!reg.test(this.name)) {
+        this.showAlert("用户名格式不正确 用户名包含数字或者字母,长度在4-14位之间")
+        return;
+      }
+      if (!pwd.test(this.pwd)) {
+        this.showAlert("密码格式不正确 密码由数字和字母组成")
+        return;
+      }
+      if (!regcode.test(this.code)) {
+        this.showAlert("验证码格式不正确 验证码至少为4位")
+        return;
+      }
+      //第二步:发送ajax请求完成用户登录{!!}核心
+      const name = this.name;
+      const code = this.pwd;
+      const captcha = this.code;
+      console.log(name, code, captcha);
+      const result = await reqPwdLogin({ name, code, captcha });
+  console.log(result);
+      //第三步:后去工作获取一个人信息保存vuex{?}
+      // if (result.code > 0) {
+      //   //第四步:获取用户信息
+      //   this.$store.dispatch("getUserInfo");
+      //   //console.log(this.$store);
+      //   //任务;登录成功跳转个人中心
+      //   this.$router.replace("/profile");
+      // }
+    }
+  }
 }
 
-</script>
-<style lang='stylus' rel='stylesheet/stylus' scoped>
-@import '../../common/stylus/minxns.styl';
 
+</script>
+<style lang='stylus' rel='stylesheet/stylus'>
 .loginContainer {
   width: 100%;
   height: 100%;

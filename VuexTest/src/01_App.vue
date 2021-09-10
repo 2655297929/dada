@@ -11,7 +11,7 @@
 export default {
   compted:{
     count(){
-      return this.@store.store.count;t
+      return this.store.store.count;
     }
   },
   data() {
