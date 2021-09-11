@@ -116,7 +116,7 @@
 // 引入提示框组件
 import AlertTip from '../../components/AlertTip/AlertTip.vue'
 // 引入ajax请求方法
-import { reqPwdLogin } from '../../api'
+import { reqPwdLogin } from '../../api/index'
 export default {
   data() {
     return {

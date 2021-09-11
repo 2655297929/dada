@@ -1,20 +1,14 @@
--- 创建一个库   shopping
-CREATE DATABASE shopping CHARSET=UFT8;
--- 进入库
-USE shopping;
--- 创建表  dd_login  dd_user
+DROP DATABASE IF EXISTS dada;
+
+CREATE DATABASE dada CHARSET=UTF8;
+
+USE dada;
 CREATE TABLE dd_login(
-  id INT  PRIMARY KEY AUTO_INCREMENT, 
-  upname VARCHAR(25), 
-  upwd VARCHAR(16)
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  uname VARCHAR(25),
+  upwd  VARCHAR(32)
 );
-CREATE TABLE dd_user(
-  id INT  PRIMARY KEY AUTO_INCREMENT, 
-  uid INT,
-  rname VARCHAR(16),
-  phone VARCHAR(11),
-  address VARCHAR(200),
-);
--- 添加测试
-INSERT INTO dd_login VALUES (null, 'TOM',MD5('123456') );
-INSERT INTO dd_user VALUES (null, 1, 'dd','17865894378','sd' );
+#添加二条数据
+INSERT INTO dd_login VALUES(null,'tom',md5('123'));
+INSERT INTO dd_login VALUES(null,'jerry',md5('123'));
+INSERT INTO dd_login VALUES(null,'kobe',md5('73464'));
