@@ -3,7 +3,7 @@
 <div class="shop_container">
             <ul class="shop_list">
               <li class="shop_li border-1px">
-                <a>
+                <router-link to="/shop">
                   <div class="shop_left">
                     <img class="shop_img" src="./images/shop/1.jpg">
                   </div>
@@ -44,7 +44,7 @@
                       </p>
                     </section>
                   </div>
-                </a>
+                </router-link>
               </li>
               <li class="shop_li border-1px">
                 <a>

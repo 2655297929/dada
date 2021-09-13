@@ -97,8 +97,8 @@
           </form>
           <a href="javascript:;" class="about_us">关于我们</a>
         </div>
-        <a href="javascript:" class="go_back">
-          <i class="iconfont icon-jiantou2"></i>
+        <a href="javascript:" class="go_back" @click="$router.back()">
+          <i class="iconfont icon-yixianshi"></i>
         </a>
       </div>
     </section>
@@ -149,16 +149,15 @@ export default {
     async login() {
       //第一步:验证用户名输入:用户名,密码验证是否正确
       //1.1插件ain正则表达式用户名  字母数字下划线3~13位
-      let reg = /^[a-zA-Z0-9_-]{4,16}$/;   /** 验证用户名   至少包含数字跟字母，可以有字符*/
-      let pwd = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/; /*验证密码     由数字和字母组成要同时含有数字和字母，且长度要在6-12位之间。*/
+      let reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/;   /** 验证用户名密码   由数字和字母组成要同时含有数字和字母，且长度要在6-14位之间*/
       let regcode = /^[0-9a-z]{4}$/i;
       //1.2:验证用户名如果不正确提示用户并且停止函数
       if (!reg.test(this.name)) {
-        this.showAlert("用户名格式不正确 用户名包含数字或者字母,长度在4-14位之间")
+        this.showAlert("密码格式不正确 密码由数字和字母组成,长度在6-14位之间")
         return;
       }
-      if (!pwd.test(this.pwd)) {
-        this.showAlert("密码格式不正确 密码由数字和字母组成")
+      if (!reg.test(this.pwd)) {
+        this.showAlert("密码格式不正确 密码由数字和字母组成,长度在6-14位之间")
         return;
       }
       if (!regcode.test(this.code)) {
@@ -167,19 +166,18 @@ export default {
       }
       //第二步:发送ajax请求完成用户登录{!!}核心
       const name = this.name;
-      const code = this.pwd;
+      const pwd = this.pwd;
       const captcha = this.code;
-      console.log(name, code, captcha);
-      const result = await reqPwdLogin({ name, code, captcha });
-  console.log(result);
-      //第三步:后去工作获取一个人信息保存vuex{?}
-      // if (result.code > 0) {
-      //   //第四步:获取用户信息
-      //   this.$store.dispatch("getUserInfo");
-      //   //console.log(this.$store);
-      //   //任务;登录成功跳转个人中心
-      //   this.$router.replace("/profile");
-      // }
+      console.log(name, pwd, captcha);
+      const result = await reqPwdLogin({ name, pwd, captcha });
+      // 第三步:后去工作获取一个人信息保存vuex{?}
+      if (result.code > 0) {
+        //第四步:获取用户信息
+        this.$store.dispatch("getUserInfo");
+        //console.log(this.$store);
+        //任务;登录成功跳转个人中心
+        this.$router.replace("/profile");
+      }
     }
   }
 }
