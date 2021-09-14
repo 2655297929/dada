@@ -24,17 +24,18 @@
               class="food-item bottom-border-1px"
             >
               <div class="icon">
-                <img width="57" height="57"   />
+                <img width="57" height="57" src="http://fuss10.elemecdn.com/6/72/cb844f0bb60c502c6d5c05e0bddf5jpeg.jpeg?imageView2/1/w/114/h/114"/>
               </div>
               <div class="content">
-                <h2 class="name"></h2>
-                <p class="desc"></p>
+                <h2 class="name">红枣山药粥</h2>
+                <p class="desc">红枣山药糙米粥,蔬菜包</p>
                 <div class="extra">
-                  <span class="count">月售  份</span>
-                  <span>好评率 %</span>
+                  <span class="count">月售  17份</span>
+                  <span>好评率 100%</span>
                 </div>
                 <div class="price">
-                  <span class="now">￥</span>
+                  <span class="now">￥29</span>
+                  <span class="old">￥36</span>
                 </div>
                 <div class="cartcontrol-wrapper">
                   <!--将当前食物对象传递,子组件-->
@@ -55,9 +56,13 @@
 export default {
   data() {
     return {
+
     };
   },
-
+  mounted(){
+    this.$store.dispatch("getShopGoods");
+    console.log(this.$store);
+  },
   components: {},
 
   computed: {},
@@ -68,7 +73,6 @@ export default {
 </script>
 <style lang='stylus' rel='stylesheet/stylus' scoped>
 @import '../../../common/stylus/minxns.styl';
-
 .goods {
   display: flex;
   position: absolute;

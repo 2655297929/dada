@@ -20,16 +20,19 @@
 <script>
 import ShopHeader from '../../components/ShopHeader/ShopHeader.vue'
 export default {
+  mounted() {
+    this.$store.dispatch("getShopInfo");
+    // console.log(this.$store);
+  },
   data() {
     return {
+
     };
   },
 
   components: { ShopHeader },
 
   computed: {},
-
-  methods: {}
 }
 
 </script>

@@ -7,6 +7,9 @@ import { Button } from 'mint-ui';
 
 Vue.component(Button.name, Button);
 
+//引入mock服务器模块
+import './mock/mockServer'
+
 new Vue({
   router,
   store,
