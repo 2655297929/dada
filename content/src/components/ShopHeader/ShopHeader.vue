@@ -1,13 +1,15 @@
 <!-- 顶部插槽 -->
 <template>
-  <div class="shop-header" >
-    <nav class="shop-nav" :style="{backgroundImage:`url(${info.bgImg})`}">
-      <a class="back" @click="$router.back()">
-        <i class="iconfont icon-arrow_left"></i>
-      </a>
+  <div class="shop-header">
+    <nav class="shop-nav" :style="{ backgroundImage: `url(${info.bgImg})` }">
+      <router-link to="/">
+        <a class="back">
+          <i class="iconfont icon-arrow_left">
+          </i> 
+        </a></router-link>
     </nav>
     <div class="shop-content">
-      <img class="content-image" :src="info.avatar"/>
+      <img class="content-image" :src="info.avatar" />
       <div class="header-content">
         <h2 class="content-title">
           <span class="content-tag">
@@ -17,13 +19,13 @@
           <i class="content-icon"></i>
         </h2>
         <div class="shop-message">
-          <span class="shop-message-detail">{{ info.score}}</span>
-          <span class="shop-message-detail">月售{{info.sellCount}}单</span>
+          <span class="shop-message-detail">{{ info.score }}</span>
+          <span class="shop-message-detail">月售{{ info.sellCount }}单</span>
           <span class="shop-message-detail">
-            {{info.description}}
-            <span>约{{info.deliveryTime}}分钟</span>
+            {{ info.description }}
+            <span>约{{ info.deliveryTime }}分钟</span>
           </span>
-          <span class="shop-message-detail">距离{{info.distance}}</span>
+          <span class="shop-message-detail">距离{{ info.distance }}</span>
         </div>
       </div>
     </div>
@@ -32,12 +34,14 @@
       <div class="discounts-left">
         <div class="activity" :class="supportClasses[info.supports[0].type]">
           <span class="content-tag">
-            <span class="mini-tag">{{info.supports[0].name}}</span>
+            <span class="mini-tag">{{ info.supports[0].name }}</span>
           </span>
-          <span class="activity-content ellipsis">{{info.supports[0].name}}</span>
+          <span class="activity-content ellipsis">{{
+            info.supports[0].name
+          }}</span>
         </div>
       </div>
-      <div class="discounts-right">{{info.supports.length}}个优惠</div>
+      <div class="discounts-right">{{ info.supports.length }}个优惠</div>
     </div>
 
     <transition name="fade">
@@ -55,19 +59,19 @@
               <p>评分</p>
             </li>
             <li>
-              <h3>{{info.sellCount}}单</h3>
+              <h3>{{ info.sellCount }}单</h3>
               <p>月售</p>
             </li>
             <li>
-              <h3>{{info.description}}</h3>
-              <p>{{info.deliveryTime}}约分钟</p>
+              <h3>{{ info.description }}</h3>
+              <p>{{ info.deliveryTime }}约分钟</p>
             </li>
             <li>
-              <h3>{{info.deliveryPrice}}元</h3>
+              <h3>{{ info.deliveryPrice }}元</h3>
               <p>配送费用</p>
             </li>
             <li>
-              <h3>{{info.distance}}</h3>
+              <h3>{{ info.distance }}</h3>
               <p>距离</p>
             </li>
           </ul>
@@ -75,7 +79,7 @@
             <span>公告</span>
           </h3>
           <div class="brief-modal-notice">
-            {{info.bulletin}}
+            {{ info.bulletin }}
           </div>
           <div class="mask-footer">
             <span class="iconfont icon-close"></span>
@@ -119,7 +123,7 @@ export default {
     return {
       supportShow: false,  //控制优惠活动提示框与隐藏
       shopShow: false,     //控制品牌提示框显示      
-      supportClasses:[]
+      supportClasses: []
     };
   },
   components: {},

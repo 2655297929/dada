@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import { reqUserInfo, reqLogout, reqShopInfo,reqShopGoods } from '../api'
+import { reqUserInfo, reqLogout, reqShopInfo, reqShopGoods } from '../api'
 
 Vue.use(Vuex)
 
@@ -10,6 +10,7 @@ const state = {
   userInfo: {}, //商家信息对象
   info: {},     //商家信息
   goods: [],    //商家商品列表
+  cartFoods: [] //食物列表购物车
 }
 
 //创建厨师
@@ -27,9 +28,20 @@ const mutations = {
     state.info = info
   },
   //接收商家商品列表
-  RECEIVE_GOODS(state,{goods}) {
+  RECEIVE_GOODS(state, { goods }) {
     state.goods = goods
+  },
+  //定义三个方法操作购物车
+  RECEIVE_GOODS(state, { goods }) {
+    state.goods = goods
+  },
+  //将购物车某个食物对象数量加一
+  INCREMENT_FOOD_COUNT(state,{food}){
+    Vue.set(food)
+    state.cartFoods.push(food);
   }
+  //将购物车某个食物对象数量减一
+  //清空购物车
 }
 
 //创建服务员
@@ -55,21 +67,21 @@ const actions = {
   },
   //获取商家信息
   async getShopInfo({ commit }) {
-    
+
     const result = await reqShopInfo();
     //如果信息正确
-    if (result.code == 0){
+    if (result.code == 0) {
       const info = result.data;
-      commit("RECEIVE_INFO",{info})
+      commit("RECEIVE_INFO", { info })
     }
     //将信息保存到vuex
   },
   async getShopGoods({ commit }) {
     const result = await reqShopGoods();
     //如果信息正确
-    if (result.code == 0){
+    if (result.code == 0) {
       const goods = result.data;
-      commit("RECEIVE_GOODS",{goods})
+      commit("RECEIVE_GOODS", { goods })
     }
     //将信息保存到vuex
   }
