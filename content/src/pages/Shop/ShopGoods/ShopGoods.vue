@@ -36,7 +36,9 @@
                 <div class="price">
                   <span class="now">￥{{ food.price }}</span>
                 </div>
-                <div class="cartcontrol-wrapper">CartControl</div>
+                <div class="cartcontrol-wrapper">
+                  <CartControl></CartControl>
+                </div>
               </div>
             </li>
           </ul>
@@ -51,6 +53,8 @@
 import { mapState } from 'vuex'
 //引入滚动条
 import BScroll from "better-scroll"
+//添加购物车组件
+import CartControl from '../../../components/CartControl/CartControl.vue'
 export default {
   computed: {
     ...mapState(['goods']),      //读取商家信息
@@ -92,7 +96,7 @@ export default {
   },
 
   components: {
-    // CartControl,
+    CartControl,
   },
 
   methods: {

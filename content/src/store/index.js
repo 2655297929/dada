@@ -32,13 +32,18 @@ const mutations = {
     state.goods = goods
   },
   //定义三个方法操作购物车
-  RECEIVE_GOODS(state, { goods }) {
-    state.goods = goods
-  },
   //将购物车某个食物对象数量加一
-  INCREMENT_FOOD_COUNT(state,{food}){
-    Vue.set(food)
-    state.cartFoods.push(food);
+  INCREMENT_FOOD_COUNT(state, { food }) {
+    //判断食物是否有数量属性
+    if (!food.count) {
+      //如果没有添加属性
+      Vue.set(food, "count", 1)  //添加属性 并且支持双向绑定
+      //并且将食物保存在购物车中
+      state.cartFoods.push(food);
+    }else{
+      //数量加一
+      food.count++;
+    }
   }
   //将购物车某个食物对象数量减一
   //清空购物车
